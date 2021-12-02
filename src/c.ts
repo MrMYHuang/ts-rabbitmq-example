@@ -1,15 +1,29 @@
-import * as amqp from 'amqplib';
+import * as amqp from 'amqp-connection-manager';
+import { ConfirmChannel } from 'amqplib';
 
 const q = 'tasks';
 async function main() {
-    const conn = await amqp.connect('amqp://localhost');
-    const ch = await conn.createChannel();
+    const conn = amqp.connect(
+        [
+            'amqp://localhost:8081',
+            'amqp://localhost:8082',
+            'amqp://localhost:8083',
+        ]);
+    const ch = conn.createChannel({
+        json: true,
+        setup: (ch: ConfirmChannel) => ch.assertQueue(q, {
+            durable: true,
+            arguments: {
+                'x-queue-type': 'quorum'
+            }
+        })
+    });
+
     try {
-        await ch.assertQueue(q);
         await ch.consume(q, (msg) => {
             if (msg !== null) {
                 console.log(msg.content.toString());
-                ch.ack(msg);
+                process.exit(0);
             }
         })
     } catch (error) {

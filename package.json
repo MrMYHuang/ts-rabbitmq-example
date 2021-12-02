@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "amqp-connection-manager": "^3.7.0",
     "amqplib": "^0.8.0"
   },
   "name": "r",
@@ -7,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start-rabbitmq": "docker run --rm --name amqp.test -p 5672:5672 rabbitmq",
+    "start-cluster": "docker-compose up --force-recreate -V",
     "start-producer": "node dist/p.js",
     "start-consumer": "node dist/c.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +18,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/amqp-connection-manager": "^2.0.12",
     "@types/amqplib": "^0.8.2",
     "@types/node": "^16.11.8",
     "typescript": "^4.5.2"
