@@ -14,7 +14,8 @@ async function main() {
         setup: (ch: ConfirmChannel) => ch.assertQueue(q, {
             durable: true,
             arguments: {
-                'x-queue-type': 'quorum'
+                'x-queue-type': 'quorum',
+                'x-expires': 60000,
             }
         })
     });
