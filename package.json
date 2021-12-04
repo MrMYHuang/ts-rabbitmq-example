@@ -3,7 +3,7 @@
     "amqp-connection-manager": "^3.7.0",
     "amqplib": "^0.8.0"
   },
-  "name": "r",
+  "name": "ts-rabbitmq-example",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
