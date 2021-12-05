@@ -17,7 +17,12 @@ async function main() {
         });
     const ch = conn.createChannel({
         json: true,
-        setup: (ch: ConfirmChannel) => ch.checkQueue(q)
+        setup: (ch: ConfirmChannel) => ch.assertQueue(q, {
+            durable: true,
+            arguments: {
+                'x-queue-type': 'quorum'
+            }
+        })
     });
 
     try {
