@@ -1,0 +1,14 @@
+{
+    "policies": [
+        {
+            "vhost": "/",
+            "name": "p1",
+            "pattern": ".*",
+            "apply-to": "queues",
+            "definition": {
+                "delivery-limit": 1
+            },
+            "priority": 1
+        }
+    ]
+}
