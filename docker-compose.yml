@@ -10,7 +10,7 @@ services:
     image: 'rabbitmq'
     hostname: q1
     ports:
-      - 8081:5672
+      - 8081:5671
       - 15672:15672
     networks:
       - app
@@ -18,31 +18,31 @@ services:
       - ./config:/config
     environment:
       - RABBITMQ_ERLANG_COOKIE=ABC
-      - RABBITMQ_CONFIG_FILE=/config/rabbitmq1.conf
+      - RABBITMQ_CONFIG_FILE=/config/rabbitmq.conf
       - RABBITMQ_ENABLED_PLUGINS_FILE=/config/plugins.conf
   q2:
     image: 'rabbitmq'
     hostname: q2
     ports:
-      - 8082:5672
+      - 8082:5671
     networks:
       - app
     volumes:
       - ./config:/config
     environment:
       - RABBITMQ_ERLANG_COOKIE=ABC
-      - RABBITMQ_CONFIG_FILE=/config/rabbitmq2.conf
+      - RABBITMQ_CONFIG_FILE=/config/rabbitmq.conf
       - RABBITMQ_ENABLED_PLUGINS_FILE=/config/plugins.conf
   q3:
     image: 'rabbitmq'
     hostname: q3
     ports:
-      - 8083:5672
+      - 8083:5671
     networks:
       - app
     volumes:
       - ./config:/config
     environment:
       - RABBITMQ_ERLANG_COOKIE=ABC
-      - RABBITMQ_CONFIG_FILE=/config/rabbitmq3.conf
+      - RABBITMQ_CONFIG_FILE=/config/rabbitmq.conf
       - RABBITMQ_ENABLED_PLUGINS_FILE=/config/plugins.conf

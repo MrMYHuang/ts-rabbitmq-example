@@ -9,22 +9,43 @@ import SwiftUI
 import RMQClient
 
 struct ContentView: View {
-    @State private var text: String = "Waiting ..."
+    @ObservedObject var receiver = Receiver()
     
     var body: some View {
-        Text(text)
+        Text(receiver.text)
             .padding()
             .frame(width: 400, height: 400, alignment: .center)
-            .onAppear(perform: receive)
+            .onAppear(perform: {
+                receiver.receive()
+            })
+            .onDisappear(perform: {
+                receiver.conn.close()
+            })
+    }
+}
+
+class Receiver: ObservableObject {
+    @Published var text: String
+    
+    init() {
+        text = "Waiting ..."
     }
     
+    lazy var tlsOptions = RMQTLSOptions(peerName: "swift", verifyPeer: false, pkcs12: nil, pkcs12Password: nil)
+    lazy var conn = RMQConnection(
+        uri: "amqps://guest:guest@localhost:8081",
+        tlsOptions: tlsOptions,
+        delegate: RMQConnectionDelegateLogger()
+    )
+    
     func receive() {
-        let conn = RMQConnection(uri: "amqp://guest:guest@localhost:8081", delegate: RMQConnectionDelegateLogger())
         conn.start()
         let ch = conn.createChannel()
         _ = ch.basicConsume("tasks", options: .noAck) { message in
             if let data = message.body, let decoded = String(data: data, encoding: .utf8) {
-                text = decoded
+                DispatchQueue.main.async {
+                    self.text = decoded
+                }
             }
         }
     }

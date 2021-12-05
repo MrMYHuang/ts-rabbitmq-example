@@ -5,3 +5,4 @@ swift/Pods
 xcshareddata
 xcuserdata
 .DS_Store
+config/certs/
