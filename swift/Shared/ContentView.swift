@@ -41,13 +41,14 @@ class Receiver: ObservableObject {
     func receive() {
         conn.start()
         let ch = conn.createChannel()
-        _ = ch.basicConsume("tasks", options: .noAck) { message in
-            if let data = message.body, let decoded = String(data: data, encoding: .utf8) {
-                DispatchQueue.main.async {
-                    self.text = decoded
-                }
-            }
-        }
+        _ = ch.queue("tasks", options: [.durable], arguments: ["x-queue-type": RMQLongstr("quorum")])
+         .subscribe(withAckMode: .auto, handler: { message in
+             if let data = message.body, let decoded = String(data: data, encoding: .utf8) {
+                 DispatchQueue.main.async {
+                     self.text = decoded
+                 }
+             }
+         })
     }
 }
 
