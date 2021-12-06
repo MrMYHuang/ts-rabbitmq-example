@@ -6,8 +6,11 @@
             "pattern": ".*",
             "apply-to": "queues",
             "definition": {
+                "max-length": 3,
                 "delivery-limit": 1,
-                "expires": 60000
+                "expires": 60000,
+                "dead-letter-exchange": "dlx",
+                "dead-letter-routing-key": "dlrk"
             },
             "priority": 1
         }

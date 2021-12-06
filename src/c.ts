@@ -26,13 +26,16 @@ async function main() {
     });
 
     try {
-        await ch.consume(q, (msg) => {
+        await ch.consume(q, async (msg) => {
             if (msg !== null) {
                 console.log(msg.content.toString());
+                //ch.nack(msg);
+                await ch.close();
                 process.exit(0);
             }
         }, {
             noAck: false,
+            prefetch: 1,
         })
     } catch (error) {
         console.log(error);

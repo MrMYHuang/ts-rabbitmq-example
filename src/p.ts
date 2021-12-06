@@ -2,6 +2,7 @@ import fs from 'fs';
 import * as amqp from 'amqp-connection-manager';
 import { ConfirmChannel } from 'amqplib';
 
+const message = process.argv[2] || 'Hello!';
 const q = 'tasks';
 async function main() {
     const conn = amqp.connect(
@@ -17,16 +18,21 @@ async function main() {
         });
     const ch = conn.createChannel({
         json: true,
-        setup: (ch: ConfirmChannel) => ch.assertQueue(q, {
-            durable: true,
-            arguments: {
-                'x-queue-type': 'quorum'
-            }
-        })
+        setup: (ch: ConfirmChannel) => {
+            ch.assertExchange('dlx', 'direct');
+            ch.assertQueue('dlq');
+            ch.bindQueue('dlq', 'dlx', 'dlrk');
+            return ch.assertQueue(q, {
+                durable: true,
+                arguments: {
+                    'x-queue-type': 'quorum',
+                }
+            });
+        }
     });
 
     try {
-        ch.sendToQueue(q, { hello: 'world' })
+        ch.sendToQueue(q, { message })
             .then(() => {
                 console.log('Done');
                 process.exit(0);
