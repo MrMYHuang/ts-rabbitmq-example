@@ -19,7 +19,8 @@ services:
     environment:
       - RABBITMQ_ERLANG_COOKIE=ABC
       - RABBITMQ_CONFIG_FILE=/config/rabbitmq.conf
-      - RABBITMQ_ENABLED_PLUGINS_FILE=/config/plugins.conf
+      - RABBITMQ_ADVANCED_CONFIG_FILE=/config/advanced.config
+      - RABBITMQ_ENABLED_PLUGINS_FILE=/config/plugins.config
   q2:
     image: 'rabbitmq'
     hostname: q2
@@ -32,7 +33,8 @@ services:
     environment:
       - RABBITMQ_ERLANG_COOKIE=ABC
       - RABBITMQ_CONFIG_FILE=/config/rabbitmq.conf
-      - RABBITMQ_ENABLED_PLUGINS_FILE=/config/plugins.conf
+      - RABBITMQ_ADVANCED_CONFIG_FILE=/config/advanced.config
+      - RABBITMQ_ENABLED_PLUGINS_FILE=/config/plugins.config
   q3:
     image: 'rabbitmq'
     hostname: q3
@@ -45,4 +47,5 @@ services:
     environment:
       - RABBITMQ_ERLANG_COOKIE=ABC
       - RABBITMQ_CONFIG_FILE=/config/rabbitmq.conf
-      - RABBITMQ_ENABLED_PLUGINS_FILE=/config/plugins.conf
+      - RABBITMQ_ADVANCED_CONFIG_FILE=/config/advanced.config
+      - RABBITMQ_ENABLED_PLUGINS_FILE=/config/plugins.config

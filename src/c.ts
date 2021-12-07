@@ -35,7 +35,6 @@ async function main() {
             }
         }, {
             noAck: false,
-            prefetch: 1,
         })
     } catch (error) {
         console.log(error);
