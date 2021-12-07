@@ -3,7 +3,7 @@
         {
             "vhost": "/",
             "name": "p1",
-            "pattern": ".*",
+            "pattern": "^(?!dlq)",
             "apply-to": "queues",
             "definition": {
                 "max-length": 3,
