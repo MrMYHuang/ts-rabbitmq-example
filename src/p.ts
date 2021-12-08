@@ -20,7 +20,12 @@ async function main() {
         json: true,
         setup: (ch: ConfirmChannel) => {
             ch.assertExchange('dlx', 'direct');
-            ch.assertQueue('dlq');
+            ch.assertQueue('dlq', {
+                durable: true,
+                arguments: {
+                    'x-queue-type': 'quorum',
+                }
+            });
             ch.bindQueue('dlq', 'dlx', 'dlrk');
             return ch.assertQueue(q, {
                 durable: true,

@@ -29,7 +29,8 @@ async function main() {
         await ch.consume(q, async (msg) => {
             if (msg !== null) {
                 console.log(msg.content.toString());
-                //ch.nack(msg);
+                // Disable this to test delivery limit.
+                //ch.ack(msg);
                 await ch.close();
                 process.exit(0);
             }
